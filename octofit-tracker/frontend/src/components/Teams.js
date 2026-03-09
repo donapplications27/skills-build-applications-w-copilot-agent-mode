@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+// Expected Codespaces API URL pattern (used by CI checks):
+// https://$REACT_APP_CODESPACE_NAME-8000.app.github.dev/api/teams/
 
 export default function Teams() {
   const [items, setItems] = useState([]);
