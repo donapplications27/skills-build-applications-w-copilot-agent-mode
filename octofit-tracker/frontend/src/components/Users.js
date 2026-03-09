@@ -21,15 +21,38 @@ export default function Users() {
   }, [endpoint]);
 
   return (
-    <div>
-      <h2>Users</h2>
-      <ul className="list-group">
-        {items.map((it, idx) => (
-          <li className="list-group-item" key={it.id || it._id || idx}>
-            {it.name || it.email || JSON.stringify(it)}
-          </li>
-        ))}
-      </ul>
+    <div className="card card-page">
+      <div className="card-body">
+        <div className="page-title mb-2">
+          <h2 className="h5">Users</h2>
+          <div>
+            <button className="btn btn-outline-primary btn-sm" onClick={() => window.location.reload()}>Refresh</button>
+          </div>
+        </div>
+
+        <div className="table-responsive">
+          <table className="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Team</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((it, idx) => (
+                <tr key={it.id || it._id || idx}>
+                  <td>{idx + 1}</td>
+                  <td>{it.name || '-'}</td>
+                  <td>{it.email || '-'}</td>
+                  <td>{(it.team && (it.team.name || it.team)) || '-'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

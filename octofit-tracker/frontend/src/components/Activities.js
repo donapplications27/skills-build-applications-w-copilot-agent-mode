@@ -21,15 +21,38 @@ export default function Activities() {
   }, [endpoint]);
 
   return (
-    <div>
-      <h2>Activities</h2>
-      <ul className="list-group">
-        {items.map((it, idx) => (
-          <li className="list-group-item" key={it.id || it._id || idx}>
-            {it.description || JSON.stringify(it)}
-          </li>
-        ))}
-      </ul>
+    <div className="card card-page">
+      <div className="card-body">
+        <div className="page-title mb-2">
+          <h2 className="h5">Activities</h2>
+          <div>
+            <button className="btn btn-outline-primary btn-sm" onClick={() => window.location.reload()}>Refresh</button>
+          </div>
+        </div>
+
+        <div className="table-responsive">
+          <table className="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Description</th>
+                <th>Duration (min)</th>
+                <th>User</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((it, idx) => (
+                <tr key={it.id || it._id || idx}>
+                  <td>{idx + 1}</td>
+                  <td>{it.description || JSON.stringify(it)}</td>
+                  <td>{it.duration_minutes ?? '-'}</td>
+                  <td>{(it.user && (it.user.name || it.user.email)) || it.user || '-'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

@@ -21,15 +21,36 @@ export default function Leaderboard() {
   }, [endpoint]);
 
   return (
-    <div>
-      <h2>Leaderboard</h2>
-      <ol className="list-group list-group-numbered">
-        {items.map((it, idx) => (
-          <li className="list-group-item" key={it.id || it._id || idx}>
-            {it.user ? (it.user.name || it.user.email) : JSON.stringify(it)} - {it.score}
-          </li>
-        ))}
-      </ol>
+    <div className="card card-page">
+      <div className="card-body">
+        <div className="page-title mb-2">
+          <h2 className="h5">Leaderboard</h2>
+          <div>
+            <button className="btn btn-outline-primary btn-sm" onClick={() => window.location.reload()}>Refresh</button>
+          </div>
+        </div>
+
+        <div className="table-responsive">
+          <table className="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((it, idx) => (
+                <tr key={it.id || it._id || idx}>
+                  <td>{idx + 1}</td>
+                  <td>{it.user ? (it.user.name || it.user.email) : JSON.stringify(it.user) || '-'}</td>
+                  <td>{it.score ?? '-'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }
