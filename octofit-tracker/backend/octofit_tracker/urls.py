@@ -13,20 +13,33 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import os
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.reverse import reverse
+
 
 @api_view(['GET'])
 def api_root(request, format=None):
+    """Return API root using Codespace URL when available.
+
+    Format: https://$CODESPACE_NAME-8000.app.github.dev/api/[component]/
+    Falls back to the request host when CODESPACE_NAME is not set.
+    """
+    codespace = os.environ.get('CODESPACE_NAME')
+    if codespace:
+        base = f"https://{codespace}-8000.app.github.dev"
+    else:
+        # fallback to request host (preserve scheme)
+        base = request.build_absolute_uri('/').rstrip('/')
+
     return Response({
-        'users': reverse('user-list', request=request, format=format),
-        'teams': reverse('team-list', request=request, format=format),
-        'activities': reverse('activity-list', request=request, format=format),
-        'workouts': reverse('workout-list', request=request, format=format),
-        'leaderboard': reverse('leaderboard-list', request=request, format=format),
+        'users': f"{base}/api/users/",
+        'teams': f"{base}/api/teams/",
+        'activities': f"{base}/api/activities/",
+        'workouts': f"{base}/api/workouts/",
+        'leaderboard': f"{base}/api/leaderboard/",
     })
 
 urlpatterns = [
