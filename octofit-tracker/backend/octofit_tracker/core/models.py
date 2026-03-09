@@ -12,6 +12,11 @@ class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['email'], name='user_email_unique'),
+        ]
 
     def __str__(self):
         return self.email
